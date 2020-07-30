@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:NumpadClient"
         mc:Ignorable="d"
         Title="Numpad Client" Height="352.102" Width="491.499">
-    <Grid KeyDown="Grid_KeyDown">
+    <Grid >
+        <TextBox x:Name="tb_Output" KeyUp="Grid_KeyDown" Margin="10,41,10,10" TextWrapping="NoWrap" Text="" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True"/>
 
     </Grid>
 </Window>

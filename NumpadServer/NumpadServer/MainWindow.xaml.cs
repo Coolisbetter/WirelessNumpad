@@ -45,6 +45,7 @@ namespace NumpadServer
             int.TryParse(key, out keyI);
             if (keyI >= 0)
             {
+
                 myKeyboardSim.KeyPress((WindowsInput.Native.VirtualKeyCode)keyI);
             }
         }
@@ -56,14 +57,14 @@ namespace NumpadServer
             if (serverRunning == true)
             {
                 lb_Status.Content = "Server is Not Running";
-                //StopListeningServer();
+                StopListeningServer();
                 serverRunning = false;
                 TextBoxWriteLine("Server Stopped");
             }
             else
             {
                 lb_Status.Content = "Server is Running";
-                //StartListeningServer();
+                StartListeningServer();
                 serverRunning = true;
                 TextBoxWriteLine("Server Started");
             }
@@ -203,7 +204,7 @@ namespace NumpadServer
                     if (clientIP != null)
                     {
                         clientIP_S = clientIP.Address.ToString();
-                        clientPort_I = clientIP.Port;
+                        clientPort_I = clientIP.Port; 
                     }
                     Dispatcher.Invoke(() => // Update result window to allow user to continue
                     {

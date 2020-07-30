@@ -13,7 +13,7 @@ namespace NumpadClient
     public class StateObject
     { 
         public Socket workSocket = null;
-        public Key key = Key.NumPad0;
+        public WindowsInput.Native.VirtualKeyCode key = WindowsInput.Native.VirtualKeyCode.NUMPAD0;
     }
 
     public class AsyncClient
@@ -29,7 +29,7 @@ namespace NumpadClient
         }
 
 
-        public void SendUpdateRequest(Key keyToSend)
+        public void SendUpdateRequest(WindowsInput.Native.VirtualKeyCode keyToSend)
         {
             // Connect to a remote device.  
             try
@@ -71,7 +71,7 @@ namespace NumpadClient
                 Console.WriteLine("Socket connected to {0}",
                     client.RemoteEndPoint.ToString());
 
-                Send(client, ((StateObject)ar.AsyncState).key + "<EOF>"); // Send key
+                Send(client, (int)((StateObject)ar.AsyncState).key + "<EOF>"); // Send key
 
             }
             catch (Exception e)
