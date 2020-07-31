@@ -67,7 +67,7 @@ namespace NumpadServer
                 iUD_Port.IsEnabled = false;
                 var port = StartListeningServer();
                 serverRunning = true;
-                TextBoxWriteLine("Server Started on port "+port+". Stop to change port");
+                TextBoxWriteLine("Server Started. Stop before changing port");
             }
         }
         public void TextBoxWriteLine(string output)
@@ -121,6 +121,7 @@ namespace NumpadServer
 
                 // Start an asynchronous socket to listen for connections.  
                 Console.WriteLine("Waiting for a connection...");
+                TextBoxWriteLine("Listening on IP " + ipAddress + " port " + serverPort);
                 myListener.BeginAccept(
                     new AsyncCallback(AcceptCallback),
                     myListener);

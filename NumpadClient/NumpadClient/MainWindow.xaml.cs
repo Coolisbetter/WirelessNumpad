@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -50,7 +51,12 @@ namespace NumpadClient
             if (((int)keyModded) >= 96 && ((int)keyModded) <= 105)
             {
                 TextBoxWriteLine("Sending " + keyModded + " ("+(int)keyModded + ") to " + serverHost + ":" + serverPort);
-                client.SendUpdateRequest(keyModded, serverHost, serverPort);
+                new Thread(() =>
+                {
+                    Thread.CurrentThread.IsBackground = true;
+                    client.SendUpdateRequest(keyModded, serverHost, serverPort);
+                }).Start();
+                
             }
             else
             {
