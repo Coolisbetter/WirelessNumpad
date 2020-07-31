@@ -24,7 +24,6 @@ namespace NumpadServer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const int ServerPort = 35197;
         bool serverRunning = false;
         public ManualResetEvent allDone = new ManualResetEvent(false);
         InputSimulator myInputSim;
@@ -57,6 +56,7 @@ namespace NumpadServer
             if (serverRunning == true)
             {
                 lb_Status.Content = "Server is Not Running";
+                iUD_Port.IsEnabled = true;
                 StopListeningServer();
                 serverRunning = false;
                 TextBoxWriteLine("Server Stopped");
@@ -64,9 +64,10 @@ namespace NumpadServer
             else
             {
                 lb_Status.Content = "Server is Running";
-                StartListeningServer();
+                iUD_Port.IsEnabled = false;
+                var port = StartListeningServer();
                 serverRunning = true;
-                TextBoxWriteLine("Server Started");
+                TextBoxWriteLine("Server Started on port "+port+". Stop to change port");
             }
         }
         public void TextBoxWriteLine(string output)
@@ -94,13 +95,19 @@ namespace NumpadServer
             }
         }
         Socket myListener;
-        private void StartListeningServer()
+        private int StartListeningServer()
         {
             if (myListener != null)
                 StopListeningServer();
+            int serverPort = 35197;
+            if (int.TryParse(iUD_Port.Text, out serverPort) == false)
+            {
+                TextBoxWriteLine("Error. Invalid port number, using 35197");
+                serverPort = 35197;
+            }
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress ipAddress = ipHostInfo.AddressList.FirstOrDefault(a => a.AddressFamily == AddressFamily.InterNetwork);
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, ServerPort);
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, serverPort);
 
             myListener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
@@ -122,6 +129,7 @@ namespace NumpadServer
             {
                 Console.WriteLine(e.ToString());
             }
+            return serverPort;
 
         }
 

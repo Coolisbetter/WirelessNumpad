@@ -3,12 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:NumpadServer"
         mc:Ignorable="d"
         Title="Numpad Server" Height="337.197" Width="472.507">
     <Grid>
         <Button x:Name="bt_StartStop" Content="Start/Stop" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="bt_StartStop_Click"/>
-        <Label x:Name="lb_Status" Content="Status" HorizontalAlignment="Left" Margin="90,7,0,0" VerticalAlignment="Top" Width="297"/>
+        <Label x:Name="lb_Status" Content="Status" HorizontalAlignment="Left" Margin="90,7,0,0" VerticalAlignment="Top" Width="225"/>
         <TextBox x:Name="tb_Output" Margin="10,41,10,10" TextWrapping="NoWrap" Text="" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True"/>
+        <xctk:IntegerUpDown x:Name="iUD_Port" Value="35197" HorizontalAlignment="Left" Margin="387,13,0,0" VerticalAlignment="Top" Width="73" TabIndex="20" />
+        <Label  Content="Port:" HorizontalAlignment="Left" Margin="346,10,0,0" VerticalAlignment="Top" Width="36"/>
+
     </Grid>
 </Window>
