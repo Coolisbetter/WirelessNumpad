@@ -18,26 +18,22 @@ namespace NumpadClient
 
     public class AsyncClient
     {
-        // IP of Host
-        private const string ServerHost = "DC-PC";
-        // The port number for the remote device.  
-        private const int port = 35197;
+        private MainWindow mainWindow;
 
-        public AsyncClient()
+        public AsyncClient(MainWindow mainWindow)
         {
-
+            this.mainWindow = mainWindow;
         }
 
-
-        public void SendUpdateRequest(WindowsInput.Native.VirtualKeyCode keyToSend)
+        public void SendUpdateRequest(WindowsInput.Native.VirtualKeyCode keyToSend, string hostServer, int portServer)
         {
             // Connect to a remote device.  
             try
             {
                 // Establish the remote endpoint for the socket.  
-                IPHostEntry ipHostInfo = Dns.GetHostEntry(ServerHost); // Needs to be hard coded to my IP 
+                IPHostEntry ipHostInfo = Dns.GetHostEntry(hostServer); 
                 IPAddress ipAddress = ipHostInfo.AddressList.FirstOrDefault(a => a.AddressFamily == AddressFamily.InterNetwork);
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, portServer);
 
                 // Create a TCP/IP socket.  
                 Socket client = new Socket(ipAddress.AddressFamily,
@@ -55,6 +51,10 @@ namespace NumpadClient
             catch (Exception e)
             {
                 Console.WriteLine("StartClient " + e.ToString());
+                mainWindow.Dispatcher.Invoke(() => // Update result window to allow user to continue
+                {
+                    mainWindow.TextBoxWriteLine("Error. Connection refused. Is the server running?");
+                });
             }
         }
 
@@ -77,6 +77,11 @@ namespace NumpadClient
             catch (Exception e)
             {
                 Console.WriteLine("ConnectCallback " + e.ToString());
+
+                mainWindow.Dispatcher.Invoke(() => // Update result window to allow user to continue
+                {
+                    mainWindow.TextBoxWriteLine("Error. Connection refused. Is the server running?");
+                });
             }
         }
 
@@ -111,6 +116,10 @@ namespace NumpadClient
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+                mainWindow.Dispatcher.Invoke(() => // Update result window to allow user to continue
+                {
+                    mainWindow.TextBoxWriteLine(e.ToString());
+                });
             }
         }
 

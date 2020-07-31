@@ -3,11 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:NumpadClient"
         mc:Ignorable="d"
-        Title="Numpad Client" Height="352.102" Width="491.499">
-    <Grid >
-        <TextBox x:Name="tb_Output" KeyUp="Grid_KeyDown" Margin="10,41,10,10" TextWrapping="NoWrap" Text="" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True"/>
-
+        Title="Numpad Client" Height="236.102" Width="563.499">
+    <Grid Margin="10,10,2,8" >
+        <TextBox x:Name="tb_Output" KeyUp="Grid_KeyDown" Margin="10,62,10,10" TextWrapping="NoWrap" Text="" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True" TabIndex="30"/>
+        <Label Content="IP/Hostname of PC to send keystrokes to: " HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="tb_host"  HorizontalAlignment="Left" Height="23" Margin="248,16,0,0" TextWrapping="Wrap" Text="localhost" VerticalAlignment="Top" Width="168" TabIndex="10"/>
+        <Label Content="Port:" HorizontalAlignment="Left" Margin="421,15,0,0" VerticalAlignment="Top"/>
+        <xctk:IntegerUpDown x:Name="iUD_Port" Value="35197" HorizontalAlignment="Left" Margin="460,18,0,0" VerticalAlignment="Top" Width="73" TabIndex="20" />
+        <Label Content="Click into the box below and press a numpad key to send it" HorizontalAlignment="Left" Margin="120,36,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

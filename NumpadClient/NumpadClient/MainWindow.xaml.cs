@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using WindowsInput;
 
 namespace NumpadClient
@@ -21,20 +23,34 @@ namespace NumpadClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        AsyncClient client = new AsyncClient();
+        AsyncClient client;
         public MainWindow()
         {
             InitializeComponent();
+            client = new AsyncClient(this);
         }
 
         private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
+            String serverHost = tb_host.Text;
+            if (serverHost.Length == 0)
+            {
+                TextBoxWriteLine("Error. IP/Host field is empty.");
+                return;
+            }
+            int serverPort = 35197;
+            if (int.TryParse(iUD_Port.Text, out serverPort) == false)
+            {
+                TextBoxWriteLine("Error. Invalid port number, using 35197");
+                serverPort = 35197;
+            }
+
             Key keyNative = e.Key;
             WindowsInput.Native.VirtualKeyCode keyModded = (WindowsInput.Native.VirtualKeyCode)((int)keyNative)+22;
             if (((int)keyModded) >= 96 && ((int)keyModded) <= 105)
             {
-                TextBoxWriteLine("Sending " + keyModded + " ("+(int)keyModded + ") to server.");
-                client.SendUpdateRequest(keyModded);
+                TextBoxWriteLine("Sending " + keyModded + " ("+(int)keyModded + ") to " + serverHost + ":" + serverPort);
+                client.SendUpdateRequest(keyModded, serverHost, serverPort);
             }
             else
             {
@@ -55,4 +71,5 @@ namespace NumpadClient
             }
         }
     }
+
 }
